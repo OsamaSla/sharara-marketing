@@ -62,8 +62,8 @@ For day-to-day work `npm run dev` is unchanged and runs at the root (no base pat
 - [ ] **Brand spelling**: logo says **שרארה**, the flyer says **שאראה** — `company.name` in
       `lib/data.ts` must match the answer.
 - [ ] **Downloads** (`הורדות`) are `#` placeholders — link the real PDFs or drop the section.
-- [ ] Contact details: `04-6082264`, פארס `053-581-9466`, מג׳די `053-538-9378`; check the email
-      (`Fares1.sharara@gmail.it` looks like it should be `.com`).
+- [ ] Contact details: `04-6082264`, פארס `053-581-9466`, מג׳די `053-538-9378`,
+      `Fares1.sharara@gmail.com` (confirmed 2026-11-13).
 
 ## Updating the live site
 

@@ -14,7 +14,8 @@ Last verified: 2026-11-13, git `main` — live at https://osamasla.github.io/sha
 - Three price modes per product (`kind`): `table` (fixed rows — skips, plenum), `calc` (estimated range —
   spiral + rect duct), `quote` ("לפי הצעה" — the other 10).
 - Real contact data is the **flyer's**, not the live site's: tel `04-6082264`, פארס 053-581-9466,
-  מג׳די 053-538-9378, `Fares1.sharara@gmail.it` (**suspected typo for `.com`/`.co.il`, not confirmed**),
+  מג׳די 053-538-9378, `Fares1.sharara@gmail.com` (the flyer's `.it` was a typo, corrected + confirmed by the
+  owner 2026-11-13; the address is now also printed in the footer, in `<bdi dir="ltr">`),
   address "אזור תעשייה". Do **not** import contacts from sharara.co.il (050-5215192 / fax / socials).
 - Sample, not live: data is seeded locally, edits persist in `localStorage`. No backend/Firebase yet.
 - **Deployed (2026-11-13): https://osamasla.github.io/sharara-marketing/** — public repo
@@ -211,4 +212,4 @@ Last verified: 2026-11-13, git `main` — live at https://osamasla.github.io/sha
 - Production Lighthouse: **100 a11y / 100 best-practices / 100 SEO** on home, `/products`,
   `/products/plenum`, `/products/spiral-duct`, `/admin` (2026-11-13, production build). ✔
 - Open for the user: confirm VAT basis, real plenum price sheet + drawings, plate thickness/weights,
-  updated skip price sheet, logo file, factory address, email correctness, and the real domain.
+  updated skip price sheet, logo file, factory address, and the real domain.
