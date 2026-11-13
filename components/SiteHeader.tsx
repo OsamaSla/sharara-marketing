@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { company } from "@/lib/data";
+import { asset } from "@/lib/site";
 import PriceToggle from "./PriceToggle";
 
 const links = [
@@ -17,7 +18,7 @@ const links = [
 function LogoMark() {
   return (
     <Image
-      src="/brand/logo-mark.png"
+      src={asset("/brand/logo-mark.png")}
       alt=""
       width={65}
       height={92}

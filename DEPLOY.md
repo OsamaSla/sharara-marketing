@@ -1,68 +1,71 @@
-# Deploy to Netlify
+# Deploy to GitHub Pages
 
-The site is a standard Next.js 15 app, so **no code changes are needed** — Netlify's Next.js
-runtime handles the SSG pages and `next/image` optimisation. Config lives in `netlify.toml`.
+The site is a **static export** (`output: "export"` in `next.config.ts`), built and published by
+`.github/workflows/deploy.yml` on every push to `main`.
 
-## What Netlify uses
+- Live URL: **https://osamasla.github.io/sharara-marketing/**
+- Build output: `out/` (uploaded as a Pages artifact — nothing is committed to a `gh-pages` branch)
+- Node 22, `npm ci`, `npm run typecheck`, `npm run build`
 
-| Setting | Value |
+## One-time setup (already done except step 2)
+
+1. Repo exists: `OsamaSla/sharara-marketing`, branch `main`.
+2. **Enable Pages**: GitHub → *Settings* → *Pages* → **Build and deployment → Source = GitHub Actions**.
+   Without this the build job runs but the deploy job fails with "Pages site not found".
+3. Push (or re-run the workflow from the *Actions* tab). First publish takes ~2 minutes.
+
+## How the sub-path works
+
+A project site is served from `https://<user>.github.io/<repo>/`, so the build sets:
+
+| Variable | Value |
 | --- | --- |
-| Build command | `npm run build` |
-| Publish directory | `.next` |
-| Node version | 22 (`NODE_VERSION` in `netlify.toml`) |
-| Plugin | `@netlify/plugin-nextjs` (installed automatically from `netlify.toml`) |
+| `NEXT_PUBLIC_BASE_PATH` | `/sharara-marketing` |
+| `NEXT_PUBLIC_SITE_URL` | `https://osamasla.github.io/sharara-marketing` |
 
-Do **not** set the publish directory to `out/` — that is static export, which drops image
-optimisation and is not what this config uses.
+`lib/site.ts` reads them. `<Link>`/`href` are prefixed by Next automatically, but files from
+`/public` are not — every `<Image src>` goes through `asset()` there, and the "does this drawing
+exist?" `HEAD` check uses the same helper. **Never hardcode a `/public` path in a component
+without `asset()`**, or it will 404 on Pages.
 
-## First deploy (GitHub route)
+`trailingSlash: true` makes every page a folder with `index.html`, which is what Pages needs.
 
-1. Create an empty repository on GitHub (private is fine), e.g. `sharara-marketing`.
-2. From this folder:
-
-   ```powershell
-   git remote add origin https://github.com/<user>/sharara-marketing.git
-   git push -u origin main
-   ```
-
-3. netlify.com → **Add new site → Import an existing project** → **GitHub** → pick the repo.
-4. Netlify reads `netlify.toml`, so leave the build settings alone → **Deploy**.
-   First build takes ~2 minutes. You get a `https://<name>.netlify.app` address immediately.
-
-## First deploy (no GitHub)
+## Local preview of the real (exported) build
 
 ```powershell
-npx netlify-cli login
-npx netlify-cli deploy --build --prod
+npm run build     # writes out/
+npm start         # serves out/ on http://localhost:3000
 ```
 
-This uploads and builds in one step. Re-run the same command to publish an update, or link
-GitHub later from the Netlify dashboard.
+For day-to-day work `npm run dev` is unchanged and runs at the root (no base path).
 
-## Custom domain
+## Custom domain later
 
-1. Netlify → **Domain management → Add a domain** → enter e.g. `sharara-hvac.co.il`.
-2. Netlify shows the DNS records to create at your registrar (usually an `A` record for the
-   apex and a `CNAME` for `www`). If the registrar is also the DNS host, you can instead point
-   the nameservers at Netlify (`dns1.p01.nsone.net`, …) and manage everything there.
-3. HTTPS is issued automatically once DNS resolves (a few minutes).
+1. GitHub → *Settings* → *Pages* → **Custom domain** → enter the domain (this writes `CNAME`).
+2. At the registrar: `A` records to `185.199.108.153 / .109 / .110 / .111` for the apex, or a
+   `CNAME` to `osamasla.github.io` for `www`.
+3. In `.github/workflows/deploy.yml` set **both** env vars to the new domain:
 
-Remember to also set the canonical URL in the code once the domain is final:
-`app/layout.tsx` (`metadataBase`) and `app/sitemap.ts` / `app/robots.ts`.
+   ```yaml
+   NEXT_PUBLIC_BASE_PATH: ""
+   NEXT_PUBLIC_SITE_URL: https://your-domain.co.il
+   ```
+
+   Leave the base path empty — a custom domain serves from the root, and the sub-path would 404.
 
 ## Before the site is public — checklist
 
-- [ ] **Prices**: `/admin` writes to `localStorage`, so a visitor never sees your edits.
-      Either freeze the final price list in `lib/data.ts` and remove `/admin` from the public
-      build, or add a shared database (Supabase/Firebase).
+- [ ] **Prices**: `/admin` writes to `localStorage`, so a visitor never sees your edits. Either
+      freeze the final price list in `lib/data.ts` and remove `/admin` from the public build, or
+      add a shared database (Supabase/Firebase). `robots.txt` already disallows `/admin/`, but that
+      is not access control.
 - [ ] **Brand spelling**: logo says **שרארה**, the flyer says **שאראה** — `company.name` in
       `lib/data.ts` must match the answer.
 - [ ] **Downloads** (`הורדות`) are `#` placeholders — link the real PDFs or drop the section.
-- [ ] Contact details: keep `04-6082264`, פארס `053-581-9466`, מג׳די `053-538-9378`; check the
-      email (`Fares1.sharara@gmail.it` looks like it should be `.com`).
-- [ ] `robots.ts` / `sitemap.ts` point at the production domain.
+- [ ] Contact details: `04-6082264`, פארס `053-581-9466`, מג׳די `053-538-9378`; check the email
+      (`Fares1.sharara@gmail.it` looks like it should be `.com`).
 
 ## Updating the live site
 
-Push to `main` (or re-run the CLI deploy). Netlify rebuilds automatically; the 22 pages are
-pre-rendered at build time, so a drawing or photo added under `public/` ships on the next build.
+Commit and push to `main`. Pages rebuilds automatically; a drawing or photo added under `public/`
+ships with the next build (no manual upload step).

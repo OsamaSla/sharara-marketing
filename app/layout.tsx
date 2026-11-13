@@ -4,6 +4,7 @@ import "./globals.css";
 import { Providers } from "@/components/Providers";
 import SiteFooter from "@/components/SiteFooter";
 import SiteHeader from "@/components/SiteHeader";
+import { METADATA_BASE } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: {
@@ -12,7 +13,7 @@ export const metadata: Metadata = {
   },
   description:
     "מפעל מתכת: מכולות אשפתון לפריקה עצמית, פלינומים, צנרת ספירלית, תעלות מיזוג, ארונות כיבוי אש, גרילים, חיתוך CNC ועבודות מתכת. מחירון, מחשבון הערכה והצעות מחיר.",
-  metadataBase: new URL("https://sharara-metal.co.il"),
+  metadataBase: METADATA_BASE,
   openGraph: {
     type: "website",
     locale: "he_IL",

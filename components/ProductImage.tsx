@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { asset } from "@/lib/site";
 import type { Product } from "@/lib/types";
 import ProductVisual from "./ProductVisual";
 
@@ -34,7 +35,7 @@ export default function ProductImage({
   useEffect(() => {
     if (!drawingSrc) return;
     let cancelled = false;
-    fetch(drawingSrc, { method: "HEAD" })
+    fetch(asset(drawingSrc), { method: "HEAD" })
       .then((res) => {
         if (!cancelled && !res.ok) setDrawingMissing(true);
       })
@@ -66,7 +67,7 @@ export default function ProductImage({
     return (
       <>
         <Image
-          src={drawing.src}
+          src={asset(drawing.src)}
           alt={drawing.alt}
           width={drawing.width}
           height={drawing.height}
@@ -91,7 +92,7 @@ export default function ProductImage({
     return (
       <>
         <Image
-          src={photo}
+          src={asset(photo)}
           alt={`${product.name} — תמונה`}
           width={product.imageWidth ?? 292}
           height={product.imageHeight ?? 238}

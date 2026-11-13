@@ -46,8 +46,11 @@ npm run typecheck            # fast TS gate
 
 ## Deploy
 
-Netlify is wired up already: `netlify.toml` (Next.js runtime, Node 22, `publish = ".next"`) — the full
-step-by-step is in `DEPLOY.md`. Nothing in the app has to change.
+Static export to **GitHub Pages** — `.github/workflows/deploy.yml` builds `out/` on every push to
+`main` and publishes it. Details, sub-path rules and the custom-domain switch live in `DEPLOY.md`.
+
+Local preview of the exported build: `npm run build && npm start` (serves `out/`); `npm run dev` is
+unchanged and runs at the site root.
 
 ## What is demo-only
 

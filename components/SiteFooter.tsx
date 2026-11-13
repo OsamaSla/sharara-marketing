@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { company, groups } from "@/lib/data";
+import { asset } from "@/lib/site";
 
 export default function SiteFooter() {
   return (
@@ -8,7 +9,7 @@ export default function SiteFooter() {
       <div className="mx-auto grid max-w-6xl gap-8 px-4 py-12 sm:grid-cols-2 lg:grid-cols-4">
         <div>
           <Image
-            src="/brand/logo.png"
+            src={asset("/brand/logo.png")}
             alt={company.name}
             width={237}
             height={135}

@@ -89,10 +89,13 @@ Last verified: 2026-11-13, git `main` @ d170adf
 - **Lighthouse is only meaningful against `npm start`**, not dev (dev streams metadata → false
   "missing meta description"). Verified 2026-11-13 on the production build: 100 a11y / 100 best-practices /
   100 SEO on home, `/products`, `/products/plenum`, `/products/spiral-duct`.
-- **Deploy target is Netlify** (`netlify.toml`, steps in `DEPLOY.md`): build `npm run build`, publish
-  `.next`, `NODE_VERSION=22`, `@netlify/plugin-nextjs` is auto-installed from `netlify.toml`. Do **not**
-  switch to `output: "export"` — that drops the image optimiser. Git repo was initialised 2026-11-13
-  (branch `main`, one commit, `.netlify/` ignored).
+- **Deploy target is GitHub Pages, static export** (`output: "export"`, `trailingSlash: true`,
+  `images.unoptimized: true`). Workflow `.github/workflows/deploy.yml` publishes `out/`;
+  `npm start` now runs `serve out` (Page's rules can't be reproduced by `next start`).
+  `NEXT_PUBLIC_BASE_PATH=/sharara-marketing` + `NEXT_PUBLIC_SITE_URL` are set in the workflow and read by
+  `lib/site.ts`. **`/public` paths must go through `asset()`** — Next only prefixes `<Link>`/`href`.
+  `robots.ts`/`sitemap.ts` need `export const dynamic = "force-static"` or the export build fails.
+  Git repo initialised 2026-11-13 (branch `main`), remote `OsamaSla/sharara-marketing`.
 - Verifying the catalog without a screenshot: `browser.evaluate` reading `document.querySelectorAll`
   (screenshots need a visible desktop window; `naturalWidth` is scaled by page zoom, so 292 px sources
   report 222).

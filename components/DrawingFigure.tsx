@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useState, type ReactNode } from "react";
+import { asset } from "@/lib/site";
 import type { ProductDrawing } from "@/lib/types";
 
 /**
@@ -24,7 +25,7 @@ export default function DrawingFigure({
 
   useEffect(() => {
     let cancelled = false;
-    fetch(drawing.src, { method: "HEAD" })
+    fetch(asset(drawing.src), { method: "HEAD" })
       .then((res) => {
         if (!cancelled && !res.ok) setMissing(true);
       })
@@ -40,7 +41,7 @@ export default function DrawingFigure({
 
   return (
     <Image
-      src={drawing.src}
+      src={asset(drawing.src)}
       alt={drawing.alt}
       width={drawing.width}
       height={drawing.height}
