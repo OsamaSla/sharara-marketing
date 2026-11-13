@@ -1,9 +1,10 @@
+import Image from "next/image";
 import Link from "next/link";
 import FeaturedProducts from "@/components/FeaturedProducts";
-import ProductVisual from "@/components/ProductVisual";
 import QuoteDialog from "@/components/QuoteDialog";
 import { groups, company, seedProducts } from "@/lib/data";
 import { formatNum, formatILS, withVat } from "@/lib/pricing";
+import { asset } from "@/lib/site";
 
 const stats = [
   { value: "5", label: "מידות סטנדרטיות" },
@@ -11,11 +12,32 @@ const stats = [
   { value: "100%", label: "ייצור במפעל שלנו" },
 ];
 
-const groupArt: Record<string, string> = {
-  skips: "skips",
-  tin: "spiral",
-  hvac: "rect",
-  products: "cnc",
+/** One real photo per group — no illustrations on the home page. */
+const groupArt: Record<string, { src: string; alt: string; width: number; height: number }> = {
+  skips: {
+    src: "/products/ashpaon-hopper.jpg",
+    alt: "מכולת אשפתון מפלדה עם כיסי מלגזה",
+    width: 1024,
+    height: 768,
+  },
+  tin: {
+    src: "/products/fire-cabinets.jpg",
+    alt: "ארון כיבוי אש מפלדה",
+    width: 292,
+    height: 238,
+  },
+  hvac: {
+    src: "/products/spiral-duct.jpg",
+    alt: "צינור ספירלי מגולוון",
+    width: 292,
+    height: 238,
+  },
+  products: {
+    src: "/products/cnc.png",
+    alt: "לוחות מחורצים בחיתוך CNC",
+    width: 292,
+    height: 238,
+  },
 };
 
 const advantages = [
@@ -128,7 +150,15 @@ export default function HomePage() {
           <div className="relative">
             <div className="rounded-3xl border border-white/10 bg-white/[0.06] p-4 backdrop-blur-sm">
               <div className="rounded-2xl bg-gradient-to-b from-white to-slate-100 p-3">
-                <ProductVisual category="skips" className="h-64 w-full" />
+                <Image
+                  src={asset("/products/ashpaon-hopper.jpg")}
+                  alt="מכולת אשפתון מפלדה לפריקה עצמית במלגזה"
+                  width={1024}
+                  height={768}
+                  priority
+                  sizes="(min-width: 1024px) 520px, 90vw"
+                  className="h-64 w-full rounded-xl object-contain"
+                />
               </div>
               <div className="mt-3 flex flex-wrap items-center justify-between gap-2 rounded-xl bg-white/10 px-3 py-2 text-[11.5px] text-white/80">
                 <bdi className="num font-semibold">אורך 100–200 ס״מ</bdi>
@@ -161,6 +191,7 @@ export default function HomePage() {
 
         <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {groups.map((group) => {
+            const art = groupArt[group.slug] ?? groupArt.products;
             const count = seedProducts.filter(
               (product) => product.group === group.slug && product.status === "published",
             ).length;
@@ -170,10 +201,14 @@ export default function HomePage() {
                 href={`/products?group=${group.slug}`}
                 className="card group overflow-hidden transition hover:-translate-y-0.5 hover:border-brand-200 hover:shadow-md"
               >
-                <div className="grid-lines bg-gradient-to-b from-slate-50 to-white p-3">
-                  <ProductVisual
-                    category={groupArt[group.slug] ?? group.slug}
-                    className="h-32 w-full"
+                <div className="grid-lines flex items-center justify-center bg-gradient-to-b from-slate-50 to-white p-3">
+                  <Image
+                    src={asset(art.src)}
+                    alt={art.alt}
+                    width={art.width}
+                    height={art.height}
+                    sizes="(min-width: 1024px) 260px, 45vw"
+                    className="h-32 w-auto max-w-full rounded-lg object-contain"
                   />
                 </div>
                 <div className="p-4">
