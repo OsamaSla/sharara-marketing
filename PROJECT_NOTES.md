@@ -1,6 +1,6 @@
 # PROJECT NOTES — עלי שאראה בע״מ (marketing + catalog sample)
 
-Last verified: 2026-11-13, no git repo yet (working tree only)
+Last verified: 2026-11-13, git `main` @ d170adf
 
 ## 1. What this is
 
@@ -89,6 +89,10 @@ Last verified: 2026-11-13, no git repo yet (working tree only)
 - **Lighthouse is only meaningful against `npm start`**, not dev (dev streams metadata → false
   "missing meta description"). Verified 2026-11-13 on the production build: 100 a11y / 100 best-practices /
   100 SEO on home, `/products`, `/products/plenum`, `/products/spiral-duct`.
+- **Deploy target is Netlify** (`netlify.toml`, steps in `DEPLOY.md`): build `npm run build`, publish
+  `.next`, `NODE_VERSION=22`, `@netlify/plugin-nextjs` is auto-installed from `netlify.toml`. Do **not**
+  switch to `output: "export"` — that drops the image optimiser. Git repo was initialised 2026-11-13
+  (branch `main`, one commit, `.netlify/` ignored).
 - Verifying the catalog without a screenshot: `browser.evaluate` reading `document.querySelectorAll`
   (screenshots need a visible desktop window; `naturalWidth` is scaled by page zoom, so 292 px sources
   report 222).
@@ -96,7 +100,8 @@ Last verified: 2026-11-13, no git repo yet (working tree only)
 ## 5. Data model, pricing & settings
 
 - `Product`: id, slug, name, subtitle, category, **group**, description, highlights, `included`, specs,
-  documents, status, **kind**, `image?`, `calc?`, `adders?`, `sizes[]`.
+  documents, status, **kind**, `image?` (+`imageWidth`/`imageHeight`/`photoCredit`), `drawing?`
+  (`src`/`alt`/`width`/`height`/`caption`), `photoFirst?`, `calc?`, `adders?`, `sizes[]`.
 - `Size`: id, label, `lengthCm`, optional `widthCm`/`heightCm`, `volumeM3`, `weightKg`, `weightEstimated`,
   `priceNetAgorot`, `dealerNetAgorot` (**null = "לפי הצעה"**), `provisional?` (price awaiting confirmation).
 - **Money is stored net (ex-VAT) as integer agorot.** Gross = `roundShekel(net * 1.18)`; never store a gross copy.

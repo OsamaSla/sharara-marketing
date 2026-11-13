@@ -44,13 +44,20 @@ npm run typecheck            # fast TS gate
 - **Editing loop** — change a price or a sheet rate in `/admin`, open the product page, the new value is live
   (gross and VAT values are computed, never stored twice).
 
+## Deploy
+
+Netlify is wired up already: `netlify.toml` (Next.js runtime, Node 22, `publish = ".next"`) — the full
+step-by-step is in `DEPLOY.md`. Nothing in the app has to change.
+
 ## What is demo-only
 
-- Data lives in `lib/data.ts` + `localStorage` (`sharara.store.v3`). No Firebase yet.
+- Data lives in `lib/data.ts` + `localStorage` (`sharara.store.v4`). No Firebase yet — `/admin` edits are
+  per-browser and invisible to visitors, so the price list must be frozen in `lib/data.ts` (or given a real
+  database) before launch.
 - `/admin` has no login. The quote form does not send anything.
-- 12 product photos come from the old site and are only **292×238 px**; ashpaon, plenum and metalwork still
-  use inline SVG placeholders. No upscaling.
-- Plenum prices and design adders are our provisional numbers, waiting for the shop's sheet + drawings.
+- Photos: 12 come from the old site at **292×238 px** (never upscaled); ashpaon/plenum/metalwork use the
+  owner's own photos. ashpaon and plenum also carry the shop's drawings from `public/specs/`.
+- Plenum prices and design adders are our provisional numbers, waiting for the shop's confirmation.
 - Server metadata/JSON-LD/sitemap read `seedProducts`; admin edits therefore do not affect them.
 - Skip prices are seeded **net** from the shop flyer, but the flyer's VAT basis is still unconfirmed.
 
