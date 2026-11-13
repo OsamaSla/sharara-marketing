@@ -58,7 +58,8 @@ Last verified: 2026-11-13, git `main` — live at https://osamasla.github.io/sha
   `lib/data.ts` before the file exists falls through instead of showing a broken image.
 - `components/DrawingFigure.tsx` — renders one shop drawing with the same missing-file fallback.
 - `components/ProductVisual.tsx` — inline SVG art per category; `artByCategory` maps the 14 categories onto
-  5 drawings, so unknown categories never render empty. Now only a last-resort fallback.
+  5 drawings, so unknown categories never render empty. Now only a last-resort fallback: every product has a
+  real photo, and the home page (hero + 4 group cards) uses real photos via `groupArt` in `app/page.tsx`.
 - `components/AdminClient.tsx` — price-list status, bulk %, calc-rate editor, per-size editor, CSV, reset.
 - `lib/data.ts` — company, `skipGeometry`, `groups`, 14 `categories`, `defaultSettings.calcRates`,
   `seedProducts`, helpers (`cheapestSize`, `groupName`, `productsOfGroup`).
