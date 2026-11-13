@@ -102,6 +102,15 @@ export default function SiteFooter() {
                 {company.phone}
               </a>
             </li>
+            <li className="flex items-center justify-between gap-2">
+              <span className="text-slate-600">מייל</span>
+              <a
+                href={`mailto:${company.email}`}
+                className="text-[12.5px] font-semibold text-slate-800 hover:text-brand-700"
+              >
+                <bdi dir="ltr">{company.email}</bdi>
+              </a>
+            </li>
           </ul>
           <div className="mt-4 flex flex-col gap-2">
             <a

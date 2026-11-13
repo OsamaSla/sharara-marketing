@@ -7,7 +7,7 @@ export const company = {
   short: "ייצור מתכת, מכולות אשפתון ומערכות מיזוג",
   phone: "04-6082264",
   phoneHref: "tel:+97246082264",
-  email: "Fares1.sharara@gmail.it",
+  email: "Fares1.sharara@gmail.com",
   address: "אזור תעשייה",
   sales: [
     {
