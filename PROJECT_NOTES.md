@@ -1,6 +1,6 @@
 # PROJECT NOTES — עלי שאראה בע״מ (marketing + catalog sample)
 
-Last verified: 2026-11-13, git `main` @ d170adf
+Last verified: 2026-11-13, git `main` — live at https://osamasla.github.io/sharara-marketing/
 
 ## 1. What this is
 
@@ -17,6 +17,8 @@ Last verified: 2026-11-13, git `main` @ d170adf
   מג׳די 053-538-9378, `Fares1.sharara@gmail.it` (**suspected typo for `.com`/`.co.il`, not confirmed**),
   address "אזור תעשייה". Do **not** import contacts from sharara.co.il (050-5215192 / fax / socials).
 - Sample, not live: data is seeded locally, edits persist in `localStorage`. No backend/Firebase yet.
+- **Deployed (2026-11-13): https://osamasla.github.io/sharara-marketing/** — public repo
+  `OsamaSla/sharara-marketing`, GitHub Pages via Actions (static export, sub-path build).
 - Live site: `https://www.sharara.co.il` (PHP `index.php?todo=…`, built by AHLANNET). Scraped 2026-11-13;
   it spells the brand **עלי שרארה בע"מ** — and its logo (now used here) says the same, while the flyer says
   שאראה. Spelling unresolved; `company.name` still follows the flyer. Its product photos were downloaded
@@ -96,6 +98,10 @@ Last verified: 2026-11-13, git `main` @ d170adf
   `lib/site.ts`. **`/public` paths must go through `asset()`** — Next only prefixes `<Link>`/`href`.
   `robots.ts`/`sitemap.ts` need `export const dynamic = "force-static"` or the export build fails.
   Git repo initialised 2026-11-13 (branch `main`), remote `OsamaSla/sharara-marketing`.
+- **Live check 2026-11-13:** `https://osamasla.github.io/sharara-marketing/` returns 200, Hebrew title,
+  hero images load (plenum 1303×816, ashpaon 1024×768, drawing 1280×720), Lighthouse **100/100/100** on the
+  live home page. All `/public` files 200 under the sub-path. Lazy images below the fold read `0x0` in the
+  headless tab — that is the hidden-window gotcha, not a broken deploy.
 - Verifying the catalog without a screenshot: `browser.evaluate` reading `document.querySelectorAll`
   (screenshots need a visible desktop window; `naturalWidth` is scaled by page zoom, so 292 px sources
   report 222).
