@@ -1,0 +1,165 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Heebo", "Segoe UI", system-ui, -apple-system, sans-serif;
+
+  /* Brand palette taken from the company logo: gold #DFAF00 + charcoal #6E6E6D.
+     Gold is only safe as a surface — text on it must be `--color-night`. */
+  --color-brand-50: #fffaeb;
+  --color-brand-100: #fdf0c3;
+  --color-brand-200: #fadd7f;
+  --color-brand-300: #f3c93f;
+  --color-brand-400: #e8b710;
+  --color-brand-500: #dfaf00;
+  --color-brand-600: #b98f00;
+  --color-brand-700: #8f6e00;
+  --color-brand-800: #6f5600;
+  --color-brand-900: #544100;
+
+  --color-ink: #1c1a16;
+  --color-night: #201d18;
+  --color-page: #f8f7f3;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background: var(--color-page);
+    color: var(--color-ink);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background: var(--color-brand-200);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-brand-700);
+    outline-offset: 2px;
+  }
+}
+
+@layer components {
+  .card {
+    border-radius: 1rem;
+    border: 1px solid rgba(203, 213, 225, 0.75);
+    background: #fff;
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 0.85rem;
+    padding: 0.7rem 1.15rem;
+    font-size: 0.9rem;
+    font-weight: 700;
+    line-height: 1.2;
+    transition:
+      background-color 0.15s ease,
+      border-color 0.15s ease,
+      color 0.15s ease,
+      transform 0.15s ease;
+    cursor: pointer;
+  }
+  .btn:active {
+    transform: translateY(1px);
+  }
+
+  /* Dark text on gold: #dfaf00 is too light for white text (2:1). */
+  .btn-primary {
+    background: var(--color-brand-500);
+    color: var(--color-night);
+    box-shadow: 0 12px 24px -16px rgba(223, 175, 0, 0.95);
+  }
+  .btn-primary:hover {
+    background: var(--color-brand-400);
+  }
+
+  .btn-ghost {
+    background: #fff;
+    color: var(--color-ink);
+    border: 1px solid #dbe3ee;
+  }
+  .btn-ghost:hover {
+    border-color: #b9c7da;
+    background: #fbfcfe;
+  }
+
+  .btn-light {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  .btn-light:hover {
+    background: rgba(255, 255, 255, 0.18);
+  }
+
+  .field {
+    width: 100%;
+    border-radius: 0.75rem;
+    border: 1px solid #cbd5e1;
+    background: #fff;
+    padding: 0.6rem 0.75rem;
+    font-size: 0.875rem;
+    color: var(--color-ink);
+    outline: none;
+    transition:
+      border-color 0.15s ease,
+      box-shadow 0.15s ease;
+  }
+  .field:focus {
+    border-color: var(--color-brand-600);
+    box-shadow: 0 0 0 3px var(--color-brand-100);
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    border-radius: 999px;
+    padding: 0.25rem 0.65rem;
+    font-size: 0.72rem;
+    font-weight: 600;
+    background: var(--color-brand-50);
+    color: var(--color-brand-800);
+    border: 1px solid var(--color-brand-100);
+  }
+
+  .grid-lines {
+    background-image:
+      linear-gradient(to right, rgba(148, 163, 184, 0.16) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(148, 163, 184, 0.16) 1px, transparent 1px);
+    background-size: 28px 28px;
+  }
+}
+
+@layer utilities {
+  .num {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum";
+  }
+}
+
+@media print {
+  header,
+  footer,
+  .no-print {
+    display: none !important;
+  }
+  body {
+    background: #fff;
+  }
+  .card {
+    box-shadow: none;
+    border-color: #cbd5e1;
+  }
+}
